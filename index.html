@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Div</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="square">
+        <span class="colorCount">0</span>
+    </div>
+
+    <div class="buttonContainer">
+        <!-- Redo Container -->
+        <div class="redoContainer">
+            <button class="toggleRedo">Toggle Redo List</button>
+            <button class="redoBtn">Redo</button>
+            <div class="listContainer" draggable="true">
+                <ul class="redoList"></ul> <!-- Lista Redo -->
+            </div>
+        </div>
+
+        <!-- Button per te ndryshuar ngjyren-->
+        <button class="btn">Color</button>
+
+        <!-- Undo Container -->
+        <div class="undoContainer">
+            <button class="toggleUndo">Toggle Undo List</button>
+            <button class="undoBtn">Undo</button>
+            <div class="listContainer" draggable="true">
+                <ul class="undoList"></ul> <!-- Lista Undo -->
+            </div>
+        </div>
+    </div>
+
+    <script src="logic.js"></script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+File HTML
+<!DOCTYPE html> është një deklaratë që tregon se ky dokument është në formën HTML5
+Tagu <html lang="en">: Fillon strukturën kryesore të dokumentit dhe specifikon që gjuha e përmbajtjes është anglisht.
+<meta charset="UTF-8">: Përcakton setin e karaktereve të përdorura në këtë faqe, në këtë rast është UTF-8.
+initial-scale=1.0">: Përdoret për të bërë faqen responsive, duke përshtatur gjerësinë e faqes në pajisje të ndryshme 
+Tagu <title>: Vendos titullin e faqes si "Color Div".
+Tagu <link rel="stylesheet" href="style.css">: Ky tag lidhet me një skedar të jashtëm CSS (style.css) për të stiluar elementet e faqes.
+<body>: Kjo është pjesa kryesore e dokumentit ku janë përfshirë të gjitha elementet vizuale.
+<div class="square">: Ky div shërben si një kornizë për të treguar numrin e ngjyrave që përdoruesi ka zgjedhur. Numri shfaqet brenda elementit span me klasën colorCount.
+<div class="buttonContainer">: Ky div është një container që përmban të gjithë butonat dhe listat për Redo dhe Undo.
+Brenda ketij container ndodhet redo container dhe undo container
+<button class="toggleRedo">Toggle Redo List</button>: Ky është një buton që aktivizon ose fsheh listën e ngjyrave te Redo.
+<button class="redoBtn">Redo</button>: Butoni që lejon përdoruesin të kryejë një veprim Redo.
+<div class="listContainer" draggable="true">: Kjo është një listë që përmban ngjyrat për Redo, e cila mund të tërhiqet (drag-and-drop). Brenda këtij div-i është një listë e renditur <ul class="redoList"> për të mbajtur elementet.
+<button class="btn">Color</button>: Ky buton është për të ndryshuar ngjyrën. Nëse përdoruesi zgjedh një ngjyrë, numri i ngjyrave të përdorura rritet.
+<button class="toggleUndo">Toggle Undo List</button>: Ky është një buton që aktivizon ose fsheh listën e ngjyrave të Undo.
+<button class="undoBtn">Undo</button>: Butoni që lejon përdoruesin të kryejë një veprim Undo.
+<div class="listContainer" draggable="true">: Kjo është një listë që përmban ngjyrat për Undo, gjithashtu me funksion drag-and-drop. Lista renditet përmes <ul class="undoList">.
+<script src="logic.js">: Ky tag lidh një skedar të jashtëm JavaScript që përmban logjikën funksionale për ndërveprimet me butonat Undo dhe Redo, si dhe ndryshimet e ngjyrave. Kjo përfshin funksione për të shfaqur dhe fshehur listat, si dhe për të mbajtur gjurmët e veprimeve të përdoruesit.
+
+File CSS
+Fillimisht eshte pjesa e stilizimit te katrorit, numrit dhe butovave, pastaj eshte pjesa e @media(max-width:480)
+
+
+File i Javascript 
+colorCount: Një variablë që numëron se sa herë është ndryshuar ngjyra e katrorit.
+undoColor: Një array që ruan ngjyrat e kaluara për të mundësuar funksionin "undo".
+redoColor: Një array që ruan ngjyrat që janë rikthyer pas përdorimit të "undo", duke mundësuar funksionin "redo".
+Funksioni changeColors()
+const square = document.querySelector(".square");  Merr elementin HTML me klasën .square, i cili do të ndryshohet në ngjyrë.
+const colorCountElement = document.querySelector(".colorCount"); - Kjo merr elementin ku do të shfaqet numri i ngjyrave të ndryshuara.
+const colors = ["#4CAF50", "#FFC107", "#03A9F4", "#FF5722", "#9C27B0"]; - Ky array përmban disa ngjyra.
+const randomColor = colors[Math.floor(Math.random() * colors.length)]; - Zgjedh një ngjyrë të rastësishme nga lista duke përdorur Math.random() dhe Math.floor() për të siguruar që indeksi të jetë një numër i plote.
+Kontrollohet Kontrollon nëse katrori ka një ngjyrë të mëparshme. Nëse ka, ajo ngjyrë shtohet në undoColor. Kjo behet me if statmentin if (square.style.backgroundColor) 
+updateUndoList(); - Përdoret ky funksion për të përditësuar shfaqjen e historikut të "undo".
+redoColor.length = 0; - Pastron listën e ngjyrave të "redo", pasi një veprim i ri është kryer.
+colorCount++; - Rrit numrin e klikimeve për çdo herë që përdoruesi ndryshon ngjyrën.
+colorCountElement.textContent = colorCount; - Përdor këtë për të shfaqur numrin e klikimeve në ekran.
+Funksioni undoColors
+if (undoColor.length > 0) - Kontrollon nëse ka ndonjë ngjyrë të ruajtur për "undo".
+const lastColor = undoColor.pop(); - Merr dhe heq ngjyrën e fundit nga lista e undoColor. pop() e bën këtë në mënyrë që ngjyra e fundit të përdoret për të rikthyer ngjyrën e katrorit.
+redoColor.push(square.style.backgroundColor); - Shto ngjyrën aktuale në redoColor para se të bësh "undo".
+square.style.backgroundColor = lastColor; - Vendos ngjyrën e katrorit në ngjyrën e fundit të ruajtur nga "undo".
+updateRedoList(); dhe updateUndoList(); - Përdoren për të përditësuar shfaqjen e listave të ngjyrave të "redo" dhe "undo".
+Funksioni redoColors
+if (redoColor.length > 0) { ... } - Kontrollon nëse ka ndonjë ngjyrë të ruajtur për "redo".
+const lastColor = redoColor.pop(); - Merr dhe heq ngjyrën e fundit nga lista e redoColor.
+undoColor.push(square.style.backgroundColor); - Shton ngjyrën aktuale në undoColor para se të bësh "redo".
+square.style.backgroundColor = lastColor; - Vendos ngjyrën e katrorit në ngjyrën e fundit të ruajtur nga "redo".
+updateUndoList(); dhe updateRedoList(); - Përdoren për të përditësuar shfaqjen e listave të ngjyrave të "undo" dhe "redo".
+Funksioni handleDragStart-Menaxhon fillimin e ngjarjes së tërheqjes dhe ruan ngjyrën e objektit që po tërhiqet.
+Funksioni handleDrop- Menaxhon ngjarjen e leshimit dhe nderron ngjyrat midis elementeve.
+Funksioni updateColorInList ndihmon në përditësimin e ngjyrave në një listë kur dy ngjyra shkëmbehen gjatë një veprimi tërheqje (drag).
+if (draggedIndex !== -1) list[draggedIndex] = targetColor;: Nëse ngjyra e tërhequr është gjetur në listë (indeksi është i vlefshëm), atëherë ngjyra në atë indeks përditësohet me ngjyrën e qëllimit (target).
+if (targetIndex !== -1) list[targetIndex] = draggedColor;: Po kështu, nëse ngjyra e qëllimit është gjetur, ajo përditësohet me ngjyrën e tërhequr.
+document.addEventListener("DOMContentLoaded", () => { ... });: Ky ngjarje ekzekutohet kur dokumenti HTML është plotësisht i ngarkuar, por para se të ngarkohen imazhet dhe burimet e tjera. Kjo siguron që elementët e DOM janë të disponueshëm për të manipuluar.
+const toggleRedoButton = document.querySelector('.toggleRedo'); - Zgjedh butonin për të aktivizuar ose çaktivizuar listën e "redo".
+const toggleUndoButton = document.querySelector('.toggleUndo'); - Zgjedh butonin për të aktivizuar ose çaktivizuar listën e "undo".
+const redoListContainer = document.querySelector('.redoContainer .listContainer'); - Zgjedh kontejnerin për listën e "redo".
+const undoListContainer = document.querySelector('.undoContainer .listContainer'); - Zgjedh kontejnerin për listën e "undo".
